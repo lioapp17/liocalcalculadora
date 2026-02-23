@@ -2,961 +2,924 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Portafolio Conservador & Agresivo - Leandro</title>
-
-  <!-- Icono para pestaña del navegador -->
-  <link rel="icon" type="image/png" href="icon-192.png">
-
-  <!-- Icono cuando se agrega a pantalla de inicio (iOS / Android) -->
-  <link rel="apple-touch-icon" href="icon-192.png">
-
-  <!-- Manifest PWA para que tome iconos y nombre como app -->
-  <link rel="manifest" href="manifest.webmanifest">
-
-  <!-- Color de la barra superior cuando se instala como app -->
-  <meta name="theme-color" content="#0f766e">
-
-  <!-- Fuente limpia similar a páginas de finanzas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finanzas Mes a Mes - Simple</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+ <style>
+  :root{
+    --bg0:#070A12;
+    --bg1:#0B1220;
+    --card:rgba(255,255,255,.06);
+    --card2:rgba(255,255,255,.09);
+    --border:rgba(255,255,255,.10);
+    --text:#EAF0FF;
+    --muted:rgba(234,240,255,.70);
+    --muted2:rgba(234,240,255,.55);
 
+    --good:#22C55E;
+    --warn:#F59E0B;
+    --bad:#EF4444;
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+    --a:#7C3AED;      /* violeta */
+    --b:#06B6D4;      /* cyan */
+    --c:#22C55E;      /* green */
 
-    body {
-      margin: 0;
-      padding: 1.5rem;
-      min-height: 100vh;
-      background: #f3f5f9;
-      color: #111827;
-    }
+    --shadow: 0 18px 60px rgba(0,0,0,.45);
+    --shadow2: 0 10px 26px rgba(0,0,0,.35);
+    --radius: 18px;
+  }
 
-    h1 {
-      margin: 0 0 .4rem;
-      font-size: 1.7rem;
-      font-weight: 600;
-      color: #0b1120;
-    }
+  *{box-sizing:border-box}
+  html,body{height:100%}
 
-    h2 {
-      margin: 0 0 .4rem;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #111827;
-    }
+  body{
+    margin:0;
+    padding:22px;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 700px at 12% -10%, rgba(124,58,237,.35), transparent 60%),
+      radial-gradient(900px 600px at 100% 10%, rgba(6,182,212,.25), transparent 55%),
+      radial-gradient(800px 560px at 30% 110%, rgba(34,197,94,.12), transparent 60%),
+      linear-gradient(180deg, var(--bg0), var(--bg1));
+  }
 
-    p {
-      margin: 0 0 .6rem;
-      font-size: .9rem;
-      color: #4b5563;
-    }
+  h1{
+    margin:0 0 16px;
+    font-size:1.6rem;
+    font-weight:800;
+    letter-spacing:.2px;
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+  }
+  h1::before{
+    content:"";
+    width:14px;height:14px;border-radius:999px;
+    background: linear-gradient(135deg, var(--a), var(--b));
+    box-shadow: 0 0 0 5px rgba(124,58,237,.12);
+  }
 
-    .layout {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1.2rem;
-      margin-top: .8rem;
-    }
+  .grid{
+    display:grid;
+    grid-template-columns:1.25fr .75fr;
+    gap:16px;
+    align-items:start;
+  }
+  @media(max-width:900px){
+    body{padding:14px}
+    .grid{grid-template-columns:1fr}
+  }
 
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-    }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow: var(--shadow2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::after{
+    content:"";
+    position:absolute; inset:-2px;
+    pointer-events:none;
+    background: radial-gradient(600px 180px at 20% 0%, rgba(124,58,237,.22), transparent 60%);
+    opacity:.7;
+  }
+  .card > *{position:relative; z-index:1}
 
-    .card {
-      background: #ffffff;
-      border-radius: .75rem;
-      padding: 1rem;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-      margin-bottom: 1rem;
-    }
+  h2{
+    margin:0 0 10px;
+    font-size:1.05rem;
+    font-weight:750;
+    letter-spacing:.15px;
+    color: rgba(234,240,255,.95);
+  }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: .25rem;
-      font-size: .7rem;
-      padding: .15rem .6rem;
-      border-radius: 999px;
-      border: 1px solid #d1fae5;
-      background: #ecfdf5;
-      color: #047857;
-      margin-left: .35rem;
-    }
+  label{
+    display:block;
+    font-size:.78rem;
+    color:var(--muted);
+    margin-bottom:6px;
+    letter-spacing:.1px;
+  }
 
-    .pill-agg {
-      border-color: #dbeafe;
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
+  input, textarea, select{
+    width:100%;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.06);
+    color:var(--text);
+    outline:none;
+    transition: .15s ease;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  input::placeholder, textarea::placeholder{color:rgba(234,240,255,.35)}
+  input:focus, textarea:focus, select:focus{
+    border-color: rgba(6,182,212,.45);
+    box-shadow: 0 0 0 4px rgba(6,182,212,.16);
+  }
+  textarea{min-height:140px;font-family:ui-monospace, Menlo, Consolas, monospace}
 
-    .flex {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .75rem;
-      align-items: center;
-      justify-content: space-between;
-    }
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  @media(max-width:520px){.row,.row3{grid-template-columns:1fr}}
 
-    label {
-      font-size: .75rem;
-      color: #6b7280;
-      display: block;
-      margin-bottom: .15rem;
-    }
+  .hr{
+    height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+    margin:16px 0;
+  }
 
-    input[type="number"],
-    input[type="text"] {
-      width: 100%;
-      padding: .3rem .45rem;
-      border-radius: .45rem;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      color: #111827;
-      font-size: .8rem;
-      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
-    }
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:12px;
+  }
 
-    input::placeholder {
-      color: #9ca3af;
-    }
+  .btn{
+    border:none;
+    border-radius:999px;
+    padding:11px 14px;
+    font-weight:700;
+    letter-spacing:.1px;
+    cursor:pointer;
+    color: #071014;
+    background: linear-gradient(135deg, var(--c), #B7F7D1);
+    box-shadow: 0 12px 28px rgba(34,197,94,.18);
+    transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    user-select:none;
+  }
+  .btn:hover{transform: translateY(-1px); filter:saturate(1.08)}
+  .btn:active{transform: translateY(0px) scale(.99)}
 
-    input:focus {
-      outline: none;
-      border-color: #10b981;
-      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.55);
-      background: #ffffff;
-    }
+  .btn.secondary{
+    color: #071014;
+    background: linear-gradient(135deg, var(--b), #A7F3FF);
+    box-shadow: 0 12px 28px rgba(6,182,212,.18);
+  }
+  .btn.danger{
+    color:#fff;
+    background: linear-gradient(135deg, var(--bad), #FB7185);
+    box-shadow: 0 12px 28px rgba(239,68,68,.18);
+  }
+  .btn.quick{
+    color:#120A00;
+    background: linear-gradient(135deg, var(--warn), #FDE68A);
+    box-shadow: 0 12px 28px rgba(245,158,11,.18);
+  }
 
-    .small-input-group {
-      width: 160px;
-    }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    color: rgba(234,240,255,.92);
+    font-weight:700;
+    font-size:.78rem;
+  }
+  .pill.ok{border-color: rgba(34,197,94,.35); box-shadow: 0 0 0 4px rgba(34,197,94,.08) inset}
+  .pill.warn{border-color: rgba(245,158,11,.35); box-shadow: 0 0 0 4px rgba(245,158,11,.08) inset}
+  .pill.bad{border-color: rgba(239,68,68,.35); box-shadow: 0 0 0 4px rgba(239,68,68,.08) inset}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: .78rem;
-      margin-top: .6rem;
-      border-radius: .6rem;
-      overflow: hidden;
-      border: 1px solid #e5e7eb;
-      background: #ffffff;
-    }
+  .kpis{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:12px;
+  }
+  @media(max-width:520px){.kpis{grid-template-columns:1fr}}
 
-    thead {
-      background: #0f766e;
-      color: #f9fafb;
-    }
+  .kpi{
+    border:1px solid rgba(255,255,255,.10);
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+    border-radius:16px;
+    padding:12px;
+    box-shadow: 0 10px 26px rgba(0,0,0,.25);
+  }
+  .kpi .t{
+    font-size:.78rem;
+    color:var(--muted2);
+    letter-spacing:.1px;
+  }
+  .kpi .v{
+    margin-top:6px;
+    font-size:1.12rem;
+    font-weight:850;
+    font-variant-numeric: tabular-nums;
+  }
+  .big{font-size:1.35rem}
 
-    th,
-    td {
-      padding: .4rem .4rem;
-      text-align: right;
-      border-bottom: 1px solid #e5e7eb;
-    }
+  .note{
+    color: var(--muted);
+    font-size:.84rem;
+    line-height:1.35;
+    margin-top:10px;
+  }
 
-    th {
-      font-weight: 500;
-      font-size: .72rem;
-      white-space: nowrap;
-    }
+  .box{
+    border:1px solid rgba(255,255,255,.10);
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+    border-radius: 18px;
+    padding: 14px;
+    margin-top: 14px;
+    box-shadow: var(--shadow2);
+  }
+  .boxTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:0 0 8px;
+  }
+  .boxTitle b{
+    font-size:1rem;
+    letter-spacing:.1px;
+  }
 
-    td:first-child,
-    th:first-child {
-      text-align: left;
-    }
+  .barWrap{
+    width:100%;
+    height:12px;
+    border-radius:999px;
+    background: rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.10);
+    overflow:hidden;
+    margin-top:10px;
+  }
+  .bar{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg, var(--c), var(--b));
+    transition: width .18s ease;
+  }
+  .bar.warn{background: linear-gradient(90deg, var(--warn), #FDE68A)}
+  .bar.bad{background: linear-gradient(90deg, var(--bad), #FB7185)}
 
-    tbody tr:nth-child(odd) {
-      background: #ffffff;
-    }
+  .list{
+    margin-top:12px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:16px;
+    overflow:hidden;
+    background: rgba(255,255,255,.04);
+  }
+  .item{
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    gap:10px;
+    align-items:center;
+    padding:12px 12px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background: transparent;
+  }
+  .item:nth-child(even){background: rgba(255,255,255,.03)}
+  .item:hover{background: rgba(6,182,212,.07)}
+  .item .name{
+    font-size:.92rem;
+    color: rgba(234,240,255,.95);
+  }
+  .item .amt{
+    font-variant-numeric: tabular-nums;
+    color: rgba(234,240,255,.92);
+    font-weight:800;
+  }
 
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
+  /* Chiquito pero lindo en mobile */
+  @media(max-width:520px){
+    .item{grid-template-columns:1fr auto}
+    .item button{grid-column:2}
+  }
 
-    tbody tr:hover {
-      background: #e0f2fe;
-    }
-
-    .number-cell {
-      font-variant-numeric: tabular-nums;
-    }
-
-    .target-input {
-      width: 72px;
-      text-align: right;
-    }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .6rem;
-      margin-top: .7rem;
-    }
-
-    @media (max-width: 700px) {
-      .summary-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .summary-card {
-      border-radius: .7rem;
-      padding: .55rem .7rem;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-    }
-
-    .summary-title {
-      font-size: .8rem;
-      margin-bottom: .25rem;
-      font-weight: 500;
-      color: #0f172a;
-    }
-
-    .summary-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: .15rem;
-      font-size: .78rem;
-    }
-
-    .summary-label {
-      color: #6b7280;
-    }
-
-    .summary-value {
-      font-variant-numeric: tabular-nums;
-      color: #111827;
-    }
-
-    .note {
-      font-size: .72rem;
-      color: #6b7280;
-      margin-top: .4rem;
-    }
-
-    .btn {
-      margin-top: .55rem;
-      padding: .38rem .9rem;
-      font-size: .8rem;
-      border-radius: 999px;
-      border: none;
-      background: #059669;
-      color: #ecfdf5;
-      cursor: pointer;
-      font-weight: 500;
-      letter-spacing: .01em;
-      box-shadow: 0 3px 8px rgba(5, 150, 105, 0.45);
-      transition: transform .08s ease, box-shadow .08s ease, background .1s ease;
-    }
-
-    .btn:hover {
-      background: #047857;
-      box-shadow: 0 4px 10px rgba(4, 120, 87, 0.55);
-      transform: translateY(-1px);
-    }
-
-    .btn:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(4, 120, 87, 0.4);
-    }
-
-    .btn.secondary {
-      background: #0ea5e9;
-      color: #f0f9ff;
-      box-shadow: 0 3px 8px rgba(14, 165, 233, 0.5);
-    }
-
-    .btn.secondary:hover {
-      background: #0284c7;
-      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.6);
-    }
-
-    #json-area {
-      width: 100%;
-      margin-top: .5rem;
-      background: #f9fafb;
-      color: #111827;
-      border: 1px solid #d1d5db;
-      border-radius: .6rem;
-      font-size: .75rem;
-      padding: .5rem .6rem;
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      resize: vertical;
-      min-height: 180px;
-    }
-
-    #json-area:focus {
-      outline: none;
-      border-color: #0ea5e9;
-      box-shadow: 0 0 0 1px rgba(14, 165, 233, .55);
-      background: #ffffff;
-    }
-  </style>
+  /* Scrollbar (opcional) */
+  ::-webkit-scrollbar{height:10px;width:10px}
+  ::-webkit-scrollbar-thumb{background: rgba(255,255,255,.10); border-radius:999px}
+  ::-webkit-scrollbar-thumb:hover{background: rgba(255,255,255,.18)}
+</style>
 </head>
 <body>
 
-  <h1>Panel de Portafolio – Conservador & Agresivo</h1>
-  <p>
-    • Definís <strong>monto inicial</strong> y cargás tus <strong>aportes mensuales</strong>.<br>
-    • El sistema calcula el <strong>total invertido</strong> y reparte por <strong>% de inversión</strong> (editables).<br>
-    • Podés <strong>agregar activos</strong>, <strong>exportar/importar JSON</strong> y generar un texto listo para la <strong>IA</strong>.
-  </p>
+<h1>Finanzas: gasto general semanal + guardado mes a mes</h1>
 
-  <div class="layout">
-    <!-- IZQUIERDA: CARTERAS + MESES -->
-    <div>
-      <!-- CONSERVADORA -->
-      <div class="card" id="cons-card">
-        <div class="flex">
-          <h2>Cartera Conservadora
-            <span class="pill">KO · JNJ · MCD · MSFT · NVDA · AMD · GOOGL · TSM · SPY · QQQ</span>
-          </h2>
-          <div class="small-input-group">
-            <label for="cons-inicial">Monto inicial (ya invertido)</label>
-            <input type="number" id="cons-inicial" value="0" min="0" step="1000">
-          </div>
-          <div class="small-input-group">
-            <label for="cons-aporte-mes">Aporte de este mes</label>
-            <input type="number" id="cons-aporte-mes" value="0" min="0" step="1000">
-          </div>
-        </div>
-        <p class="note">
-          Total invertido = monto inicial + suma de aportes mensuales (tabla de abajo).
-          Con eso se reparte el capital según los porcentajes por activo (columna editable).
-        </p>
-
-        <table>
-          <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Acción</th>
-            <th>% objetivo</th>
-            <th>Monto sugerido total</th>
-            <th>A comprar este mes</th>
-          </tr>
-          </thead>
-          <tbody id="cons-body"></tbody>
-        </table>
-
-        <button class="btn" id="cons-add-asset-btn">+ Agregar activo a Conservadora</button>
-
-        <div class="summary-grid">
-          <div class="summary-card">
-            <div class="summary-title">Resumen Conservadora</div>
-            <div class="summary-item">
-              <span class="summary-label">Total invertido acumulado</span>
-              <span class="summary-value" id="cons-total-inv">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Aportes acumulados (solo meses)</span>
-              <span class="summary-value" id="cons-aportes-sum">—</span>
-            </div>
-          </div>
-        </div>
+<div class="grid">
+  <!-- IZQUIERDA -->
+  <div class="card">
+    <div class="row">
+      <div>
+        <label>Mes</label>
+        <input id="month" type="month" />
       </div>
-
-      <!-- AGRESIVA -->
-      <div class="card" id="agg-card">
-        <div class="flex">
-          <h2>Cartera Agresiva
-            <span class="pill pill-agg">NVDA · AMD · TSM · ASML · META · GOOGL · AMZN · QQQ · MSFT</span>
-          </h2>
-          <div class="small-input-group">
-            <label for="agg-inicial">Monto inicial (ya invertido)</label>
-            <input type="number" id="agg-inicial" value="0" min="0" step="1000">
-          </div>
-          <div class="small-input-group">
-            <label for="agg-aporte-mes">Aporte de este mes</label>
-            <input type="number" id="agg-aporte-mes" value="0" min="0" step="1000">
-          </div>
-        </div>
-        <p class="note">
-          Igual lógica: monto inicial + aportes → total invertido. Con los % de la tabla (editables) se reparte el capital.
-        </p>
-
-        <table>
-          <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Acción</th>
-            <th>% objetivo</th>
-            <th>Monto sugerido total</th>
-            <th>A comprar este mes</th>
-          </tr>
-          </thead>
-          <tbody id="agg-body"></tbody>
-        </table>
-
-        <button class="btn" id="agg-add-asset-btn">+ Agregar activo a Agresiva</button>
-
-        <div class="summary-grid">
-          <div class="summary-card">
-            <div class="summary-title">Resumen Agresiva</div>
-            <div class="summary-item">
-              <span class="summary-label">Total invertido acumulado</span>
-              <span class="summary-value" id="agg-total-inv">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Aportes acumulados (solo meses)</span>
-              <span class="summary-value" id="agg-aportes-sum">—</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- REGISTRO MENSUAL -->
-      <div class="card">
-        <h2>Registro mensual de aportes y dividendos (reales)</h2>
-        <p class="note">
-          Una fila por mes. Las columnas de "Aporte Cons." y "Aporte Agres." se usan para calcular cuánto llevás invertido
-          (sumado al monto inicial). Los dividendos aquí son los reales que efectivamente cobrás.
-        </p>
-        <table>
-          <thead>
-          <tr>
-            <th>Mes</th>
-            <th>Aporte Cons.</th>
-            <th>Div. Cons.</th>
-            <th>Valor Cons. fin de mes</th>
-            <th>Aporte Agres.</th>
-            <th>Div. Agres.</th>
-            <th>Valor Agres. fin de mes</th>
-          </tr>
-          </thead>
-          <tbody id="months-body"></tbody>
-        </table>
-        <button class="btn" id="add-row-btn">+ Agregar mes</button>
+      <div>
+        <label>Ingreso mensual total ($)</label>
+        <input id="income" type="number" min="0" step="1" placeholder="Ej: 850000" />
       </div>
     </div>
 
-    <!-- DERECHA: RESUMEN GLOBAL + JSON/IA -->
-    <div>
-      <div class="card">
-        <h2>Resumen global y comparación</h2>
-        <p class="note">
-          Resultado total = valor actual (último mes) + dividendos acumulados − (monto inicial + aportes acumulados).
-        </p>
-        <div class="summary-grid">
-          <div class="summary-card">
-            <div class="summary-title">Conservadora</div>
-            <div class="summary-item">
-              <span class="summary-label">Aportes acumulados (meses)</span>
-              <span class="summary-value" id="cons-aportes">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Dividendos acumulados</span>
-              <span class="summary-value" id="cons-divs">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Valor actual (último mes)</span>
-              <span class="summary-value" id="cons-valor">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Resultado total</span>
-              <span class="summary-value" id="cons-result">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Rentabilidad total</span>
-              <span class="summary-value" id="cons-rentab">—</span>
-            </div>
-          </div>
+    <div class="hr"></div>
 
-          <div class="summary-card">
-            <div class="summary-title">Agresiva</div>
-            <div class="summary-item">
-              <span class="summary-label">Aportes acumulados (meses)</span>
-              <span class="summary-value" id="agg-aportes">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Dividendos acumulados</span>
-              <span class="summary-value" id="agg-divs">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Valor actual (último mes)</span>
-              <span class="summary-value" id="agg-valor">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Resultado total</span>
-              <span class="summary-value" id="agg-result">—</span>
-            </div>
-            <div class="summary-item">
-              <span class="summary-label">Rentabilidad total</span>
-              <span class="summary-value" id="agg-rentab">—</span>
-            </div>
-          </div>
-        </div>
+    <h2 style="margin:0 0 .4rem;font-size:1.02rem">Gastos fijos (del mes)</h2>
+    <div class="row">
+      <div>
+        <label>Nombre</label>
+        <input id="fxName" type="text" placeholder="Ej: alquiler, internet, cuota..." />
       </div>
-
-      <div class="card">
-        <h2>Exportar / Importar / IA</h2>
-        <p class="note">
-          • <strong>Exportar JSON</strong>: genera un JSON con el estado completo de tus carteras.<br>
-          • <strong>Importar JSON</strong>: pegás un JSON guardado y se restaura todo.<br>
-          • <strong>Texto para IA</strong>: genera un texto listo para pegar en ChatGPT para que analice tu situación y sugiera pasos.
-        </p>
-        <button class="btn secondary" id="export-json-btn">Exportar JSON</button>
-        <button class="btn secondary" id="import-json-btn">Importar JSON</button>
-        <button class="btn secondary" id="ia-btn">Preparar texto para IA</button>
-        <textarea id="json-area" rows="10" placeholder="Acá vas a ver el JSON exportado, o pegá uno para importar."></textarea>
-        <p class="note">
-          Copiá y pegá este contenido en ChatGPT (o donde quieras) para seguir jugando con la estrategia.
-        </p>
-      </div>
-      
-    <!-- 📅 NUEVO: CALENDARIO PERSONAL DE NOTAS (debajo de Exportar/Importar) -->
-      <div class="card">
-        <h2>Calendario personal de notas</h2>
-        <p class="note">
-          Pensado para usar rápido desde el celular: elegís una fecha, escribís un recordatorio y queda guardado
-          sólo en este dispositivo (localStorage). Ideal para reuniones, vencimientos, ideas, etc.
-        </p>
-
-        <div class="flex" style="gap:.6rem; margin-top:.5rem; align-items:flex-end;">
-          <div style="min-width:140px;">
-            <label for="cal-date">Fecha</label>
-            <input type="date" id="cal-date">
-          </div>
-          <div style="flex:1;">
-            <label for="cal-title">Título / resumen</label>
-            <input type="text" id="cal-title" placeholder="Ej: Reunión consejo, revisar cartera, etc.">
-          </div>
-        </div>
-
-        <div style="margin-top:.5rem;">
-          <label for="cal-text">Detalle / recordatorio</label>
-          <textarea id="cal-text" rows="3" style="width:100%; padding:.4rem .5rem; border-radius:.45rem; border:1px solid #d1d5db; font-size:.8rem; resize:vertical;" placeholder="Escribí más detalles si lo necesitás..."></textarea>
-        </div>
-
-        <div style="margin-top:.55rem;">
-          <button class="btn" id="cal-save-btn">Guardar / actualizar nota</button>
-          <button class="btn secondary" id="cal-delete-btn" style="margin-left:.4rem; background:#ef4444; box-shadow:0 3px 8px rgba(239,68,68,.35);">
-            Borrar nota del día
-          </button>
-        </div>
-
-        <p class="note">
-          Tip: usalo como “memoria externa” para no cargar todo en la cabeza. Las notas quedan sólo en este celu/PC.
-        </p>
-
-        <h3 style="font-size:.9rem; margin:.8rem 0 .3rem;">Próximas notas</h3>
-        <div id="cal-list" class="cal-list"></div>
+      <div>
+        <label>Monto ($)</label>
+        <input id="fxAmt" type="number" min="0" step="1" placeholder="0" />
       </div>
     </div>
+    <div class="actions">
+      <button class="btn" id="addFixed">+ Agregar fijo</button>
+      <button class="btn secondary" id="clearFixed">Vaciar fijos del mes</button>
+    </div>
+    <div class="list" id="fixedList"></div>
+
+    <div class="hr"></div>
+
+    <h2 style="margin:0 0 .4rem;font-size:1.02rem">Reglas (sobre el ingreso)</h2>
+    <div class="row3">
+      <div>
+        <label>Seguridad %</label>
+        <input id="pSec" type="number" min="0" step="0.5" value="15" />
+      </div>
+      <div>
+        <label>Ahorro %</label>
+        <input id="pSav" type="number" min="0" step="0.5" value="10" />
+      </div>
+      <div>
+        <label>Inversión %</label>
+        <input id="pInv" type="number" min="0" step="0.5" value="5" />
+      </div>
+    </div>
+    <div class="note">
+      Tope semanal = (Ingreso − Fijos − Seguridad/Ahorro/Inversión) / 4.33
+    </div>
+
+    <!-- GASTO GENERAL -->
+    <div class="box">
+      <div class="boxTitle">
+        <b>Gasto general de la semana (Lun–Dom)</b>
+        <span id="weekPill" class="pill ok">OK</span>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Fecha</label>
+          <input id="wkDate" type="date" />
+        </div>
+        <div>
+          <label>Monto ($)</label>
+          <input id="wkAmt" type="number" min="0" step="1" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:.6rem">
+        <div>
+          <label>Nota (opcional)</label>
+          <input id="wkNote" type="text" placeholder="Ej: súper, nafta, salidas (opcional)" />
+        </div>
+        <div style="display:flex;align-items:end;gap:.5rem">
+          <button class="btn" id="addWeekSpend" style="width:100%">+ Cargar gasto</button>
+          <button class="btn quick" id="quickSpend" style="white-space:nowrap">+ Gasto rápido</button>
+        </div>
+      </div>
+
+      <div class="barWrap">
+        <div class="bar" id="weekBar"></div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="t">Tope semanal sugerido</div>
+          <div class="v" id="wkLimit">—</div>
+        </div>
+        <div class="kpi">
+          <div class="t">Gastado esta semana</div>
+          <div class="v" id="wkSpent">—</div>
+        </div>
+        <div class="kpi">
+          <div class="t">Te queda (semana)</div>
+          <div class="v" id="wkLeft">—</div>
+        </div>
+        <div class="kpi">
+          <div class="t">Semana</div>
+          <div class="v" style="font-size:.95rem" id="wkRange">—</div>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="t">Variables gastadas (mes)</div>
+          <div class="v" id="kVarSpent">—</div>
+        </div>
+        <div class="kpi">
+          <div class="t">Proyección al mes (ritmo semanal)</div>
+          <div class="v" id="moProjection">—</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn secondary" id="clearWeekView">Vaciar ESTA semana</button>
+        <button class="btn secondary" id="clearMonthVars">Vaciar variables del MES</button>
+      </div>
+
+      <div class="list" id="weekList"></div>
+      <div class="note">Tip: el “Gasto rápido” usa hoy y solo te pide el monto.</div>
+    </div>
+
+    <div class="hr"></div>
+
+    <h2 style="margin:0 0 .4rem;font-size:1.02rem">Backup</h2>
+    <div class="actions">
+      <button class="btn secondary" id="exportJson">Exportar JSON</button>
+      <button class="btn secondary" id="importJson">Importar JSON</button>
+    </div>
+    <textarea id="jsonBox" placeholder="Acá aparece el JSON exportado o pegá uno para importar."></textarea>
+    <div class="note">Guardado automático. El JSON incluye todos los meses.</div>
   </div>
 
-  <script>
-    // === Config base de activos y % objetivo ===
-    const BASE_CONS_ASSETS = [
-      { ticker:"KO",    name:"Coca-Cola",             target:10 },
-      { ticker:"JNJ",   name:"Johnson & Johnson",     target:10 },
-      { ticker:"MCD",   name:"McDonald's",            target:10 },
-      { ticker:"MSFT",  name:"Microsoft",             target:10 },
-      { ticker:"NVDA",  name:"Nvidia",                target:15 },
-      { ticker:"AMD",   name:"AMD",                   target:10 },
-      { ticker:"GOOGL", name:"Alphabet (Google)",     target:10 },
-      { ticker:"TSM",   name:"Taiwan Semi (TSMC)",    target:5  },
-      { ticker:"SPY",   name:"ETF S&P 500",           target:10 },
-      { ticker:"QQQ",   name:"ETF Nasdaq 100",        target:10 }
-    ];
+  <!-- DERECHA -->
+  <div class="card">
+    <h2 style="margin:0 0 .6rem;font-size:1.05rem">Resumen del mes</h2>
+    <div id="statusPill" class="pill ok">OK · Cargá datos</div>
 
-    const BASE_AGG_ASSETS = [
-      { ticker:"NVDA",  name:"Nvidia",             target:20 },
-      { ticker:"AMD",   name:"AMD",                target:10 },
-      { ticker:"TSM",   name:"Taiwan Semi (TSMC)", target:10 },
-      { ticker:"ASML",  name:"ASML Holding",       target:10 },
-      { ticker:"META",  name:"Meta Platforms",     target:10 },
-      { ticker:"GOOGL", name:"Alphabet (Google)",  target:10 },
-      { ticker:"AMZN",  name:"Amazon",             target:10 },
-      { ticker:"QQQ",   name:"ETF Nasdaq 100",     target:10 },
-      { ticker:"MSFT",  name:"Microsoft",          target:10 }
-    ];
+    <div class="kpis">
+      <div class="kpi">
+        <div class="t">Ingreso</div>
+        <div class="v" id="kIncome">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Fijos</div>
+        <div class="v" id="kFixed">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Seguridad</div>
+        <div class="v" id="kSec">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Ahorro</div>
+        <div class="v" id="kSav">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Inversión</div>
+        <div class="v" id="kInv">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Presupuesto variables (mes)</div>
+        <div class="v big" id="kVarBudget">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Variables gastadas (mes)</div>
+        <div class="v big" id="kVarSpentRight">—</div>
+      </div>
+      <div class="kpi">
+        <div class="t">Saldo del mes</div>
+        <div class="v big" id="kBalance">—</div>
+      </div>
+    </div>
 
-    let conservativeAssets = [...BASE_CONS_ASSETS];
-    let aggressiveAssets   = [...BASE_AGG_ASSETS];
+    <div class="hr"></div>
+    <div class="note" id="planText">Cargá ingreso y fijos. Luego cargá gasto general semanal y se va estimando todo.</div>
+  </div>
+</div>
 
-    const consBody    = document.getElementById("cons-body");
-    const aggBody     = document.getElementById("agg-body");
-    const monthsBody  = document.getElementById("months-body");
-    const addRowBtn   = document.getElementById("add-row-btn");
+<script>
+  const STORAGE_KEY = "leandro_finanzas_mes_a_mes_v2";
+  const el = (id)=>document.getElementById(id);
 
-    const consInicialInput = document.getElementById("cons-inicial");
-    const aggInicialInput  = document.getElementById("agg-inicial");
-    const consApMesInput   = document.getElementById("cons-aporte-mes");
-    const aggApMesInput    = document.getElementById("agg-aporte-mes");
+  const monthEl = el("month");
+  const incomeEl = el("income");
+  const pSecEl = el("pSec");
+  const pSavEl = el("pSav");
+  const pInvEl = el("pInv");
 
-    const consAddAssetBtn  = document.getElementById("cons-add-asset-btn");
-    const aggAddAssetBtn   = document.getElementById("agg-add-asset-btn");
+  const fxNameEl = el("fxName");
+  const fxAmtEl = el("fxAmt");
+  const fixedListEl = el("fixedList");
 
-    const exportJsonBtn    = document.getElementById("export-json-btn");
-    const importJsonBtn    = document.getElementById("import-json-btn");
-    const iaBtn            = document.getElementById("ia-btn");
-    const jsonArea         = document.getElementById("json-area");
+  const wkDateEl = el("wkDate");
+  const wkAmtEl = el("wkAmt");
+  const wkNoteEl = el("wkNote");
+  const quickSpendBtn = el("quickSpend");
 
-    // Resúmenes por cartera
-    const consTotalInvEl   = document.getElementById("cons-total-inv");
-    const consAportesSumEl = document.getElementById("cons-aportes-sum");
+  const weekListEl = el("weekList");
+  const weekPillEl = el("weekPill");
+  const weekBarEl = el("weekBar");
+  const wkLimitEl = el("wkLimit");
+  const wkSpentEl = el("wkSpent");
+  const wkLeftEl = el("wkLeft");
+  const wkRangeEl = el("wkRange");
+  const moProjectionEl = el("moProjection");
 
-    const aggTotalInvEl    = document.getElementById("agg-total-inv");
-    const aggAportesSumEl  = document.getElementById("agg-aportes-sum");
+  const statusPillEl = el("statusPill");
+  const kIncomeEl = el("kIncome");
+  const kFixedEl = el("kFixed");
+  const kSecEl = el("kSec");
+  const kSavEl = el("kSav");
+  const kInvEl = el("kInv");
+  const kVarBudgetEl = el("kVarBudget");
+  const kVarSpentEl = el("kVarSpent");
+  const kVarSpentRightEl = el("kVarSpentRight");
+  const kBalanceEl = el("kBalance");
+  const planTextEl = el("planText");
 
-    // Resumen global
-    const consAportesEl = document.getElementById("cons-aportes");
-    const consDivsEl    = document.getElementById("cons-divs");
-    const consValorEl   = document.getElementById("cons-valor");
-    const consResultEl  = document.getElementById("cons-result");
-    const consRentabEl  = document.getElementById("cons-rentab");
+  const jsonBoxEl = el("jsonBox");
 
-    const aggAportesEl = document.getElementById("agg-aportes");
-    const aggDivsEl    = document.getElementById("agg-divs");
-    const aggValorEl   = document.getElementById("agg-valor");
-    const aggResultEl  = document.getElementById("agg-result");
-    const aggRentabEl  = document.getElementById("agg-rentab");
+  let state = {
+    currentMonth: "",
+    months: {}
+  };
 
-    const STORAGE_KEY = "leandroPortfolioV2";
+  function money(v){
+    if(!isFinite(v)) return "—";
+    return "$ " + v.toLocaleString("es-AR",{maximumFractionDigits:0});
+  }
+  function clampNum(x){ return (isFinite(x) && x>=0) ? x : 0; }
+  function escapeHtml(s){
+    return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  }
+  function todayISO(){
+    const d = new Date();
+    const tz = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+    return tz.toISOString().slice(0,10);
+  }
+  function currentMonthISO(){
+    const d = new Date();
+    const tz = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+    return tz.toISOString().slice(0,7);
+  }
 
-    function formatMoney(v) {
-      if (!isFinite(v)) return "—";
-      return "$ " + v.toLocaleString("es-AR", { minimumFractionDigits:2, maximumFractionDigits:2 });
+  // Week helpers
+  function parseISO(s){
+    const [y,m,d] = (s||"").split("-").map(Number);
+    if(!y||!m||!d) return null;
+    return new Date(y, m-1, d);
+  }
+  function startOfWeekMonday(d){
+    const day = d.getDay();
+    const diff = (day === 0 ? -6 : 1 - day);
+    const res = new Date(d);
+    res.setDate(d.getDate() + diff);
+    res.setHours(0,0,0,0);
+    return res;
+  }
+  function endOfWeekSunday(d){
+    const s = startOfWeekMonday(d);
+    const e = new Date(s);
+    e.setDate(s.getDate()+6);
+    e.setHours(23,59,59,999);
+    return e;
+  }
+  function toISODate(d){
+    const tz = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+    return tz.toISOString().slice(0,10);
+  }
+  function inWeek(dateISO, weekStart){
+    const d = parseISO(dateISO);
+    if(!d) return false;
+    const s = new Date(weekStart);
+    const e = endOfWeekSunday(weekStart);
+    return d >= s && d <= e;
+  }
+
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+  function load(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      try{ state = JSON.parse(raw); }catch(e){}
     }
-    function formatPercent(v) {
-      if (!isFinite(v)) return "—";
-      return v.toFixed(2) + " %";
-    }
+    const m = state.currentMonth || currentMonthISO();
+    state.currentMonth = m;
+    ensureMonth(m);
+    monthEl.value = m;
+    wkDateEl.value = todayISO();
+    loadMonthToUI(m);
+    recalc();
+  }
 
-    function buildAllocationTable(assets, tbody) {
-      tbody.innerHTML = "";
-      assets.forEach(a => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${a.ticker}</td>
-          <td>${a.name}</td>
-          <td>
-            <input type="number" class="target-input" value="${a.target.toFixed(1)}" min="0" max="100" step="0.5">
-          </td>
-          <td class="number-cell cell-total">—</td>
-          <td class="number-cell cell-mes">—</td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      // Cuando cambian los % objetivo, recalculamos
-      tbody.querySelectorAll(".target-input").forEach((inp, idx) => {
-        inp.addEventListener("input", () => {
-          const val = parseFloat(inp.value);
-          if (isFinite(val) && val >= 0) {
-            assets[idx].target = val;
-            recalcAllocations();
-          }
-        });
-      });
-    }
-
-    function calcSumsFromMonths() {
-      let consAportes = 0, consDivs = 0, consValorUlt = 0;
-      let aggAportes = 0, aggDivs = 0, aggValorUlt = 0;
-
-      const rows = Array.from(monthsBody.querySelectorAll("tr"));
-      rows.forEach(row => {
-        const cA = parseFloat(row.querySelector(".cons-aporte")?.value || "0");
-        const cD = parseFloat(row.querySelector(".cons-div")?.value || "0");
-        const cV = parseFloat(row.querySelector(".cons-valor")?.value || "0");
-        const aA = parseFloat(row.querySelector(".agg-aporte")?.value || "0");
-        const aD = parseFloat(row.querySelector(".agg-div")?.value || "0");
-        const aV = parseFloat(row.querySelector(".agg-valor")?.value || "0");
-
-        if (cA > 0) consAportes += cA;
-        if (cD > 0) consDivs    += cD;
-        if (cV > 0) consValorUlt = cV;
-
-        if (aA > 0) aggAportes += aA;
-        if (aD > 0) aggDivs    += aD;
-        if (aV > 0) aggValorUlt = aV;
-      });
-
-      return {
-        consAportes, consDivs, consValorUlt,
-        aggAportes, aggDivs, aggValorUlt
+  function ensureMonth(m){
+    if(!state.months[m]){
+      state.months[m] = {
+        income: 0,
+        perc: { sec: 15, sav: 10, inv: 5 },
+        fixed: [],
+        vars: []
       };
     }
+  }
+  function currentData(){
+    const m = monthEl.value || state.currentMonth || currentMonthISO();
+    state.currentMonth = m;
+    ensureMonth(m);
+    return state.months[m];
+  }
+  function loadMonthToUI(m){
+    ensureMonth(m);
+    const d = state.months[m];
+    incomeEl.value = d.income || 0;
+    pSecEl.value = d.perc?.sec ?? 15;
+    pSavEl.value = d.perc?.sav ?? 10;
+    pInvEl.value = d.perc?.inv ?? 5;
+    renderFixed();
+    renderVarsList();
+  }
 
-    function recalcAllocations() {
-      const sums = calcSumsFromMonths();
-
-      const consInicial = parseFloat(consInicialInput.value || "0");
-      const aggInicial  = parseFloat(aggInicialInput.value || "0");
-
-      const consTotalInvertido = consInicial + sums.consAportes;
-      const aggTotalInvertido  = aggInicial  + sums.aggAportes;
-
-      const consApMes = parseFloat(consApMesInput.value || "0");
-      const aggApMes  = parseFloat(aggApMesInput.value || "0");
-
-      // CONSERVADORA
-      const consRows = Array.from(consBody.querySelectorAll("tr"));
-      conservativeAssets.forEach((asset, idx) => {
-        const row = consRows[idx];
-        if (!row) return;
-
-        const targetInput = row.querySelector(".target-input");
-        const targetVal = parseFloat(targetInput.value || asset.target);
-        const frac = targetVal / 100;
-
-        const totalSug = consTotalInvertido * frac;
-        const mesSug   = consApMes * frac;
-
-        row.querySelector(".cell-total").textContent = consTotalInvertido > 0 ? formatMoney(totalSug) : "—";
-        row.querySelector(".cell-mes").textContent   = consApMes > 0 ? formatMoney(mesSug) : "—";
-
-        if (isFinite(targetVal)) asset.target = targetVal;
-      });
-
-      consTotalInvEl.textContent   = consTotalInvertido > 0 ? formatMoney(consTotalInvertido) : "—";
-      consAportesSumEl.textContent = sums.consAportes > 0 ? formatMoney(sums.consAportes) : "—";
-
-      // AGRESIVA
-      const aggRows = Array.from(aggBody.querySelectorAll("tr"));
-      aggressiveAssets.forEach((asset, idx) => {
-        const row = aggRows[idx];
-        if (!row) return;
-
-        const targetInput = row.querySelector(".target-input");
-        const targetVal = parseFloat(targetInput.value || asset.target);
-        const frac = targetVal / 100;
-
-        const totalSug = aggTotalInvertido * frac;
-        const mesSug   = aggApMes * frac;
-
-        row.querySelector(".cell-total").textContent = aggTotalInvertido > 0 ? formatMoney(totalSug) : "—";
-        row.querySelector(".cell-mes").textContent   = aggApMes > 0 ? formatMoney(mesSug) : "—";
-
-        if (isFinite(targetVal)) asset.target = targetVal;
-      });
-
-      aggTotalInvEl.textContent   = aggTotalInvertido > 0 ? formatMoney(aggTotalInvertido) : "—";
-      aggAportesSumEl.textContent = sums.aggAportes > 0 ? formatMoney(sums.aggAportes) : "—";
-
-      // Resumen global de rentabilidad
-      const consBase = consInicial + sums.consAportes;
-      const consResultado = sums.consValorUlt + sums.consDivs - consBase;
-      const consRentab    = consBase > 0 ? (consResultado / consBase) * 100 : NaN;
-
-      consAportesEl.textContent = sums.consAportes > 0 ? formatMoney(sums.consAportes) : "—";
-      consDivsEl.textContent    = sums.consDivs > 0 ? formatMoney(sums.consDivs) : "—";
-      consValorEl.textContent   = sums.consValorUlt > 0 ? formatMoney(sums.consValorUlt) : "—";
-      consResultEl.textContent  = isFinite(consResultado) && consBase > 0 ? formatMoney(consResultado) : "—";
-      consRentabEl.textContent  = isFinite(consRentab) ? formatPercent(consRentab) : "—";
-
-      const aggBase = aggInicial + sums.aggAportes;
-      const aggResultado = sums.aggValorUlt + sums.aggDivs - aggBase;
-      const aggRentab    = aggBase > 0 ? (aggResultado / aggBase) * 100 : NaN;
-
-      aggAportesEl.textContent = sums.aggAportes > 0 ? formatMoney(sums.aggAportes) : "—";
-      aggDivsEl.textContent    = sums.aggDivs > 0 ? formatMoney(sums.aggDivs) : "—";
-      aggValorEl.textContent   = sums.aggValorUlt > 0 ? formatMoney(sums.aggValorUlt) : "—";
-      aggResultEl.textContent  = isFinite(aggResultado) && aggBase > 0 ? formatMoney(aggResultado) : "—";
-      aggRentabEl.textContent  = isFinite(aggRentab) ? formatPercent(aggRentab) : "—";
-
-      saveState();
-    }
-
-    function addMonthRow(label, data) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><input type="text" class="mes" value="${data?.mes || label || ""}" placeholder="Mes"></td>
-        <td><input type="number" class="cons-aporte" min="0" step="1000" placeholder="0" value="${data?.consAp || ""}"></td>
-        <td><input type="number" class="cons-div"    min="0" step="100"  placeholder="0" value="${data?.consDiv || ""}"></td>
-        <td><input type="number" class="cons-valor"  min="0" step="1000" placeholder="0" value="${data?.consVal || ""}"></td>
-        <td><input type="number" class="agg-aporte"  min="0" step="1000" placeholder="0" value="${data?.aggAp || ""}"></td>
-        <td><input type="number" class="agg-div"     min="0" step="100"  placeholder="0" value="${data?.aggDiv || ""}"></td>
-        <td><input type="number" class="agg-valor"   min="0" step="1000" placeholder="0" value="${data?.aggVal || ""}"></td>
+  function renderFixed(){
+    const d = currentData();
+    fixedListEl.innerHTML = "";
+    d.fixed.forEach((it, idx)=>{
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <div class="name">${escapeHtml(it.name || "—")}</div>
+        <div class="amt">${money(it.amount)}</div>
+        <button class="btn danger" style="padding:.3rem .6rem" data-del-fx="${idx}">Borrar</button>
       `;
-      monthsBody.appendChild(tr);
-      tr.querySelectorAll("input").forEach(inp => inp.addEventListener("input", recalcAllocations));
-    }
+      fixedListEl.appendChild(div);
+    });
+    fixedListEl.querySelectorAll("[data-del-fx]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const i = parseInt(btn.getAttribute("data-del-fx"),10);
+        d.fixed.splice(i,1);
+        save(); renderFixed(); recalc();
+      });
+    });
+  }
 
-    function collectState() {
-      const rows = Array.from(monthsBody.querySelectorAll("tr"));
-      const months = rows.map(row => ({
-        mes:    row.querySelector(".mes")?.value || "",
-        consAp: row.querySelector(".cons-aporte")?.value || "",
-        consDiv:row.querySelector(".cons-div")?.value || "",
-        consVal:row.querySelector(".cons-valor")?.value || "",
-        aggAp:  row.querySelector(".agg-aporte")?.value || "",
-        aggDiv: row.querySelector(".agg-div")?.value || "",
-        aggVal: row.querySelector(".agg-valor")?.value || ""
-      }));
-
-      return {
-        consInicial: consInicialInput.value || "",
-        aggInicial:  aggInicialInput.value || "",
-        consApMes:   consApMesInput.value || "",
-        aggApMes:    aggApMesInput.value || "",
-        months,
-        consAssets:  conservativeAssets,
-        aggAssets:   aggressiveAssets
-      };
-    }
-
-    function saveState() {
-      const state = collectState();
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (e) {}
-    }
-
-    function applyState(state) {
-      consInicialInput.value = state.consInicial ?? "0";
-      aggInicialInput.value  = state.aggInicial  ?? "0";
-      consApMesInput.value   = state.consApMes   ?? "0";
-      aggApMesInput.value    = state.aggApMes    ?? "0";
-
-      if (state.consAssets && Array.isArray(state.consAssets) && state.consAssets.length > 0) {
-        conservativeAssets = state.consAssets;
-      } else {
-        conservativeAssets = [...BASE_CONS_ASSETS];
-      }
-
-      if (state.aggAssets && Array.isArray(state.aggAssets) && state.aggAssets.length > 0) {
-        aggressiveAssets = state.aggAssets;
-      } else {
-        aggressiveAssets = [...BASE_AGG_ASSETS];
-      }
-
-      buildAllocationTable(conservativeAssets, consBody);
-      buildAllocationTable(aggressiveAssets,  aggBody);
-
-      monthsBody.innerHTML = "";
-      if (state.months && Array.isArray(state.months) && state.months.length > 0) {
-        state.months.forEach(m => addMonthRow(null, m));
-      } else {
-        addMonthRow("Mes 1");
-        addMonthRow("Mes 2");
-        addMonthRow("Mes 3");
-      }
-
-      recalcAllocations();
-    }
-
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const state = JSON.parse(raw);
-          applyState(state);
-          return;
-        }
-      } catch (e) {}
-      applyState({});
-    }
-
-    function addAsset(portfolio) {
-      const ticker = prompt("Ticker del activo (ej: KO, NVDA, etc.):");
-      if (!ticker) return;
-      const name = prompt("Nombre descriptivo del activo:");
-      if (!name) return;
-      const targetStr = prompt("Porcentaje objetivo dentro de la cartera (solo número, ej: 5):");
-      const target = parseFloat(targetStr);
-      if (!isFinite(target) || target <= 0) {
-        alert("Porcentaje inválido.");
-        return;
-      }
-
-      const asset = {
-        ticker: ticker.trim().toUpperCase(),
-        name: name.trim(),
-        target
-      };
-
-      if (portfolio === "cons") {
-        conservativeAssets.push(asset);
-        buildAllocationTable(conservativeAssets, consBody);
-      } else {
-        aggressiveAssets.push(asset);
-        buildAllocationTable(aggressiveAssets, aggBody);
-      }
-      recalcAllocations();
-    }
-
-    function exportJson() {
-      const state = collectState();
-      const text = JSON.stringify(state, null, 2);
-      jsonArea.value = text;
-      try {
-        navigator.clipboard.writeText(text);
-        alert("JSON copiado al portapapeles.");
-      } catch (e) {
-        alert("JSON generado en el recuadro. Copialo y guardalo donde quieras.");
-      }
-    }
-
-    function importJson() {
-      const text = jsonArea.value.trim();
-      if (!text) {
-        alert("Pegá primero un JSON en el recuadro.");
-        return;
-      }
-      try {
-        const state = JSON.parse(text);
-        applyState(state);
-        saveState();
-        alert("Datos importados correctamente.");
-      } catch (e) {
-        alert("El JSON no es válido. Revisá el contenido.");
-      }
-    }
-
-    function prepareIA() {
-      const state = collectState();
-      const promptText =
-`Analizá mi situación de inversión con dos carteras (conservadora y agresiva) y sugerime próximos pasos.
-Quiero mirar:
-- Si los porcentajes de cada activo tienen sentido.
-- Cómo seguir aportando mes a mes.
-- Cómo equilibrar entre perfil conservador y agresivo.
-
-Acá tenés el estado actual en formato JSON:
-
-` + JSON.stringify(state, null, 2);
-
-      jsonArea.value = promptText;
-      try {
-        navigator.clipboard.writeText(promptText);
-        alert("Texto para IA copiado al portapapeles. Pegalo en ChatGPT para seguir el análisis.");
-      } catch (e) {
-        alert("Texto para IA generado en el recuadro. Copialo y pegalo en la IA.");
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      consInicialInput.addEventListener("input", recalcAllocations);
-      aggInicialInput.addEventListener("input", recalcAllocations);
-      consApMesInput.addEventListener("input", recalcAllocations);
-      aggApMesInput.addEventListener("input", recalcAllocations);
-
-      consAddAssetBtn.addEventListener("click", () => addAsset("cons"));
-      aggAddAssetBtn.addEventListener("click", () => addAsset("agg"));
-
-      exportJsonBtn.addEventListener("click", exportJson);
-      importJsonBtn.addEventListener("click", importJson);
-      iaBtn.addEventListener("click", prepareIA);
-
-      loadState();
+  function renderVarsList(){
+    const d = currentData();
+    weekListEl.innerHTML = "";
+    const ordered = d.vars.slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+    ordered.forEach((it, idx)=>{
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <div class="name">${escapeHtml(it.date)}${it.note ? " · " + escapeHtml(it.note) : ""}</div>
+        <div class="amt">${money(it.amount)}</div>
+        <button class="btn danger" style="padding:.3rem .6rem" data-del-vr="${idx}">Borrar</button>
+      `;
+      weekListEl.appendChild(div);
     });
 
-    addRowBtn.addEventListener("click", () => {
-      const n = monthsBody.querySelectorAll("tr").length + 1;
-      addMonthRow("Mes " + n);
-      recalcAllocations();
+    weekListEl.querySelectorAll("[data-del-vr]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const i = parseInt(btn.getAttribute("data-del-vr"),10);
+        const target = ordered[i];
+        const j = d.vars.findIndex(x =>
+          x.date === target.date &&
+          x.amount === target.amount &&
+          (x.note||"") === (target.note||"")
+        );
+        if(j >= 0) d.vars.splice(j,1);
+        save(); renderVarsList(); recalc();
+      });
     });
-  </script>
+  }
+
+  function sumFixed(){
+    const d = currentData();
+    return d.fixed.reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+  }
+  function sumVarsMonth(){
+    const d = currentData();
+    return d.vars.reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+  }
+
+  function monthlyPlanNumbers(){
+    const d = currentData();
+    d.income = clampNum(parseFloat(incomeEl.value));
+    d.perc.sec = clampNum(parseFloat(pSecEl.value));
+    d.perc.sav = clampNum(parseFloat(pSavEl.value));
+    d.perc.inv = clampNum(parseFloat(pInvEl.value));
+
+    const inc = d.income;
+    const fixed = sumFixed();
+    const sec = inc * (d.perc.sec/100);
+    const sav = inc * (d.perc.sav/100);
+    const inv = inc * (d.perc.inv/100);
+    const varBudgetMonth = inc - fixed - sec - sav - inv;
+    return { inc, fixed, sec, sav, inv, varBudgetMonth };
+  }
+
+  function recalc(){
+    const d = currentData();
+    const { inc, fixed, sec, sav, inv, varBudgetMonth } = monthlyPlanNumbers();
+    const varsSpentMonth = sumVarsMonth();
+    const balanceMonth = inc - fixed - sec - sav - inv - varsSpentMonth;
+
+    kIncomeEl.textContent = money(inc);
+    kFixedEl.textContent = money(fixed);
+    kSecEl.textContent = money(sec);
+    kSavEl.textContent = money(sav);
+    kInvEl.textContent = money(inv);
+    kVarBudgetEl.textContent = money(varBudgetMonth);
+    kVarSpentEl.textContent = money(varsSpentMonth);
+    kVarSpentRightEl.textContent = money(varsSpentMonth);
+    kBalanceEl.textContent = money(balanceMonth);
+
+    statusPillEl.className = "pill ok";
+    statusPillEl.textContent = "OK · Equilibrado";
+
+    if(inc <= 0){
+      statusPillEl.className = "pill warn";
+      statusPillEl.textContent = "Cargá ingreso";
+      planTextEl.textContent = "Elegí el mes, cargá el ingreso y los gastos fijos. Después cargá gasto general (normal o rápido).";
+      updateWeekUI(0,0,0,null);
+      save(); return;
+    }
+
+    if(varBudgetMonth < 0){
+      statusPillEl.className = "pill bad";
+      statusPillEl.textContent = "No alcanza (antes de variables)";
+      planTextEl.innerHTML =
+        `Con tus fijos y porcentajes, ya quedás en <b>${money(varBudgetMonth)}</b> para variables.<br>
+         Bajá % o reducí fijos.`;
+    } else {
+      planTextEl.innerHTML =
+        `Presupuesto variables del mes: <b>${money(varBudgetMonth)}</b>.<br>
+         Variables gastadas: <b>${money(varsSpentMonth)}</b>.<br>
+         Saldo del mes (luego de todo): <b>${money(balanceMonth)}</b>.`;
+      if(balanceMonth < 0){
+        statusPillEl.className = "pill bad";
+        statusPillEl.textContent = "Te pasaste (mes en rojo)";
+      } else if(balanceMonth < inc*0.03){
+        statusPillEl.className = "pill warn";
+        statusPillEl.textContent = "Muy justo";
+      }
+    }
+
+    const weeklyLimit = varBudgetMonth / 4.33;
+
+    const refDate = parseISO(wkDateEl.value) || new Date();
+    const weekStart = startOfWeekMonday(refDate);
+    const weekEnd = endOfWeekSunday(refDate);
+
+    const weekSpent = d.vars
+      .filter(x => inWeek(x.date, weekStart))
+      .reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+
+    updateWeekUI(weeklyLimit, weekSpent, weeklyLimit - weekSpent, {weekStart, weekEnd});
+
+    // Proyección mensual (ritmo actual de la semana visible)
+    moProjectionEl.textContent = money(weekSpent * 4.33);
+
+    save();
+  }
+
+  function updateWeekUI(limit, spent, left, rangeObj){
+    const safeLimit = isFinite(limit) ? limit : 0;
+    const safeSpent = isFinite(spent) ? spent : 0;
+    const safeLeft = isFinite(left) ? left : 0;
+
+    wkLimitEl.textContent = money(safeLimit);
+    wkSpentEl.textContent = money(safeSpent);
+    wkLeftEl.textContent = money(safeLeft);
+
+    if(rangeObj){
+      wkRangeEl.textContent = `${toISODate(rangeObj.weekStart)} → ${toISODate(rangeObj.weekEnd)}`;
+    } else {
+      wkRangeEl.textContent = "—";
+    }
+
+    weekBarEl.classList.remove("warn","bad");
+    weekPillEl.className = "pill ok";
+    weekPillEl.textContent = "OK";
+
+    if(safeLimit <= 0){
+      weekBarEl.style.width = "0%";
+      weekPillEl.className = "pill warn";
+      weekPillEl.textContent = "Sin tope";
+      return;
+    }
+
+    const ratio = safeSpent / safeLimit;
+    const pct = Math.min(200, ratio*100);
+    weekBarEl.style.width = pct + "%";
+
+    if(ratio >= 1){
+      weekBarEl.classList.add("bad");
+      weekPillEl.className = "pill bad";
+      weekPillEl.textContent = "Te pasaste";
+    } else if(ratio >= 0.8){
+      weekBarEl.classList.add("warn");
+      weekPillEl.className = "pill warn";
+      weekPillEl.textContent = "Cerca del tope";
+    }
+  }
+
+  // Fixed actions
+  el("addFixed").addEventListener("click", ()=>{
+    const d = currentData();
+    const name = (fxNameEl.value || "").trim();
+    const amt = clampNum(parseFloat(fxAmtEl.value));
+    if(!name || amt<=0){ alert("Completá nombre y monto."); return; }
+    d.fixed.push({name, amount: amt});
+    fxNameEl.value=""; fxAmtEl.value="";
+    save(); renderFixed(); recalc();
+  });
+
+  el("clearFixed").addEventListener("click", ()=>{
+    const d = currentData();
+    d.fixed = [];
+    save(); renderFixed(); recalc();
+  });
+
+  // Normal spend
+  el("addWeekSpend").addEventListener("click", ()=>{
+    const d = currentData();
+    const date = wkDateEl.value || "";
+    const amt = clampNum(parseFloat(wkAmtEl.value));
+    const note = (wkNoteEl.value || "").trim();
+    if(!date){ alert("Elegí fecha."); return; }
+    if(amt <= 0){ alert("Monto inválido."); return; }
+    d.vars.push({date, amount: amt, note});
+    wkAmtEl.value=""; wkNoteEl.value="";
+    save(); renderVarsList(); recalc();
+  });
+
+  // ✅ NUEVO: Gasto rápido (solo monto, hoy)
+  quickSpendBtn.addEventListener("click", ()=>{
+    const d = currentData();
+    const v = prompt("Monto del gasto (hoy):");
+    if(v === null) return; // cancel
+    const amt = clampNum(parseFloat(v));
+    if(amt <= 0){ alert("Monto inválido."); return; }
+    d.vars.push({date: todayISO(), amount: amt, note: ""});
+    save(); renderVarsList(); recalc();
+  });
+
+  el("clearWeekView").addEventListener("click", ()=>{
+    const d = currentData();
+    const ref = parseISO(wkDateEl.value) || new Date();
+    const weekStart = startOfWeekMonday(ref);
+    d.vars = d.vars.filter(x => !inWeek(x.date, weekStart));
+    save(); renderVarsList(); recalc();
+  });
+
+  el("clearMonthVars").addEventListener("click", ()=>{
+    const d = currentData();
+    d.vars = [];
+    save(); renderVarsList(); recalc();
+  });
+
+  // Month switching
+  monthEl.addEventListener("input", ()=>{
+    const m = monthEl.value || currentMonthISO();
+    state.currentMonth = m;
+    ensureMonth(m);
+    loadMonthToUI(m);
+    recalc();
+  });
+
+  // Recalc on input
+  [incomeEl, pSecEl, pSavEl, pInvEl, wkDateEl].forEach(x => x.addEventListener("input", recalc));
+
+  // JSON
+  el("exportJson").addEventListener("click", ()=>{
+    const text = JSON.stringify(state, null, 2);
+    jsonBoxEl.value = text;
+    try{ navigator.clipboard.writeText(text); alert("JSON copiado."); }
+    catch(e){ alert("JSON generado en el recuadro."); }
+  });
+
+  el("importJson").addEventListener("click", ()=>{
+    const t = (jsonBoxEl.value || "").trim();
+    if(!t){ alert("Pegá un JSON primero."); return; }
+    try{
+      const obj = JSON.parse(t);
+      if(!obj || typeof obj !== "object") throw new Error("bad");
+      state = obj;
+      if(!state.months) state.months = {};
+      if(!state.currentMonth) state.currentMonth = currentMonthISO();
+      ensureMonth(state.currentMonth);
+      monthEl.value = state.currentMonth;
+      loadMonthToUI(state.currentMonth);
+      save();
+      recalc();
+      alert("Importado ok.");
+    }catch(e){
+      alert("JSON inválido.");
+    }
+  });
+
+  // init
+  (function init(){
+    monthEl.value = currentMonthISO();
+    wkDateEl.value = todayISO();
+    load();
+  })();
+</script>
+
 </body>
 </html>
