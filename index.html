@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Finanzas - Diario</title>
+
+  <meta name="theme-color" content="#0B1220">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1220;
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(255,255,255,.12);
+      --border: rgba(255,255,255,.12);
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.68);
+      --muted2:rgba(234,240,255,.52);
+
+      --good:#22C55E;
+      --warn:#F59E0B;
+      --bad:#EF4444;
+
+      --a:#7C3AED;
+      --b:#06B6D4;
+      --c:#22C55E;
+
+      --radius:18px;
+      --shadow: 0 18px 55px rgba(0,0,0,.42);
+      --shadow2: 0 10px 28px rgba(0,0,0,.32);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 640px at 10% -5%, rgba(124,58,237,.33), transparent 60%),
+        radial-gradient(900px 560px at 100% 10%, rgba(6,182,212,.22), transparent 55%),
+        radial-gradient(900px 560px at 30% 110%, rgba(34,197,94,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      background-size: cover;
+      background-position:center;
+      background-attachment: fixed;
+    }
+
+    /* Layout */
+    .app{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 14px 88px; /* espacio para nav bottom */
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 10px;
+      z-index: 30;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 200px;
+    }
+    .dot{
+      width:12px;height:12px;border-radius:999px;
+      background: linear-gradient(135deg, var(--a), var(--b));
+      box-shadow: 0 0 0 6px rgba(124,58,237,.12);
+      flex:0 0 auto;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      line-height:1.05;
+    }
+    .title b{font-size:1.03rem;letter-spacing:.2px}
+    .title span{font-size:.78rem;color:var(--muted)}
+
+    .chips{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+    }
+    .chip label{font-size:.72rem;color:var(--muted2);margin:0}
+    .chip input{
+      border:none;background:transparent;color:var(--text);
+      outline:none;
+      font-weight:700;
+      font-variant-numeric: tabular-nums;
+      padding:0;
+    }
+    .chip input[type="month"]{min-width: 135px}
+    .chip input[type="number"]{width: 120px}
+
+    /* Screens */
+    .screens{margin-top: 12px;}
+    .screen{display:none; animation: in .14s ease;}
+    .screen.active{display:block;}
+    @keyframes in{from{opacity:.4; transform: translateY(6px)} to{opacity:1; transform: translateY(0)}}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .brand{min-width:auto}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px;
+      overflow:hidden;
+    }
+
+    .card h2{
+      margin:0 0 10px;
+      font-size: .95rem;
+      letter-spacing:.15px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height:1.35;
+    }
+
+    /* Inputs */
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    @media(max-width:520px){.row,.row3{grid-template-columns:1fr}}
+
+    label{display:block;color:var(--muted2);font-size:.72rem;margin:0 0 6px}
+    input, textarea{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline:none;
+      transition: .14s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    input::placeholder, textarea::placeholder{color:rgba(234,240,255,.33)}
+    input:focus, textarea:focus{
+      border-color: rgba(6,182,212,.45);
+      box-shadow: 0 0 0 4px rgba(6,182,212,.14);
+      background: rgba(255,255,255,.08);
+    }
+    textarea{min-height:120px;font-family: ui-monospace, Menlo, Consolas, monospace; font-size:.8rem}
+
+    /* Buttons */
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{
+      border:none;
+      border-radius: 999px;
+      padding: 11px 14px;
+      font-weight: 800;
+      cursor:pointer;
+      user-select:none;
+      letter-spacing:.1px;
+      color:#061017;
+      background: linear-gradient(135deg, var(--c), #B7F7D1);
+      box-shadow: 0 14px 34px rgba(34,197,94,.16);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .btn:hover{transform: translateY(-1px); filter:saturate(1.06)}
+    .btn:active{transform: translateY(0px) scale(.99)}
+    .btn.secondary{
+      background: linear-gradient(135deg, var(--b), #A7F3FF);
+      box-shadow: 0 14px 34px rgba(6,182,212,.14);
+    }
+    .btn.danger{
+      color:#fff;
+      background: linear-gradient(135deg, var(--bad), #FB7185);
+      box-shadow: 0 14px 34px rgba(239,68,68,.14);
+    }
+    .btn.quick{
+      color:#120A00;
+      background: linear-gradient(135deg, var(--warn), #FDE68A);
+      box-shadow: 0 14px 34px rgba(245,158,11,.14);
+    }
+
+    /* Pills */
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.92);
+      font-weight: 800;
+      font-size:.74rem;
+      white-space:nowrap;
+    }
+    .pill.ok{border-color: rgba(34,197,94,.35); box-shadow: inset 0 0 0 4px rgba(34,197,94,.08)}
+    .pill.warn{border-color: rgba(245,158,11,.35); box-shadow: inset 0 0 0 4px rgba(245,158,11,.08)}
+    .pill.bad{border-color: rgba(239,68,68,.35); box-shadow: inset 0 0 0 4px rgba(239,68,68,.08)}
+
+    /* KPI tiles */
+    .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    @media(max-width:520px){.kpis{grid-template-columns:1fr}}
+    .kpi{
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .kpi .t{font-size:.72rem;color:var(--muted2)}
+    .kpi .v{
+      margin-top:6px;
+      font-size:1.12rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .big{font-size:1.32rem}
+
+    /* List */
+    .list{
+      margin-top:10px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.04);
+    }
+    .item{
+      display:grid;
+      grid-template-columns: 1fr auto auto;
+      gap:10px;
+      align-items:center;
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .item:nth-child(even){background: rgba(255,255,255,.03)}
+    .item .name{color:rgba(234,240,255,.95); font-size:.90rem; line-height:1.25}
+    .item .amt{font-variant-numeric: tabular-nums; font-weight: 900}
+    @media(max-width:520px){ .item{grid-template-columns:1fr auto} .item button{grid-column:2} }
+
+    /* Weekly bar */
+    .barWrap{
+      width:100%; height:12px; border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden; margin-top:10px;
+    }
+    .bar{
+      height:100%; width:0%;
+      background: linear-gradient(90deg, var(--c), var(--b));
+      transition: width .18s ease;
+    }
+    .bar.warn{background: linear-gradient(90deg, var(--warn), #FDE68A)}
+    .bar.bad{background: linear-gradient(90deg, var(--bad), #FB7185)}
+
+    /* Bottom Nav */
+    .bottom-nav{
+      position: fixed;
+      left: 0; right:0;
+      bottom: 0;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      display:flex;
+      justify-content:center;
+      z-index: 50;
+      pointer-events:none;
+    }
+    .nav-wrap{
+      max-width: 760px;
+      width: 100%;
+      display:flex;
+      gap:10px;
+      padding: 10px;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(10,14,28,.18);
+      box-shadow: 0 20px 65px rgba(0,0,0,.48);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      pointer-events:auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-wrap::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(135deg, rgba(124,58,237,.22), rgba(6,182,212,.18));
+      opacity:.35;
+      pointer-events:none;
+    }
+    .nav-wrap::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.00));
+      opacity:.55;
+      pointer-events:none;
+    }
+    .nav-wrap > *{ position: relative; z-index: 1; }
+    .navbtn{
+      flex:1;
+      border:none;
+      background: transparent;
+      color: rgba(234,240,255,.82);
+      padding: 10px 8px;
+      border-radius: 16px;
+      font-weight: 850;
+      cursor:pointer;
+      transition: .12s ease;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      font-size:.78rem;
+    }
+    .navbtn small{font-size:.70rem;color:var(--muted2);font-weight:800}
+    .navbtn.active{
+      background: rgba(6,182,212,.08);
+      border:1px solid rgba(6,182,212,.16);
+      color: rgba(234,240,255,.97);
+      box-shadow: inset 0 0 0 4px rgba(6,182,212,.06);
+    }
+
+    .hr{height:1px;background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent); margin: 12px 0;}
+    .muted{color:var(--muted); font-size:.82rem; line-height:1.35}
+    .mini{color:var(--muted2); font-size:.75rem}
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <div class="title">
+          <b>Finanzas</b>
+          <span id="topHint">Diario · simple</span>
+        </div>
+      </div>
+
+      <div class="chips">
+        <div class="chip">
+          <label>Mes</label>
+          <input id="month" type="month">
+        </div>
+        <div class="chip">
+          <label>Ingreso</label>
+          <input id="income" type="number" min="0" step="1" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="screens">
+
+      <!-- SCREEN: RESUMEN -->
+      <section class="screen active" data-screen="home">
+        <div class="grid">
+          <div class="card">
+            <h2>
+              <span>Resumen</span>
+              <span id="statusPill" class="pill ok">OK</span>
+            </h2>
+
+            <div class="kpis">
+              <div class="kpi"><div class="t">Fijos</div><div class="v" id="kFixed">—</div></div>
+              <div class="kpi"><div class="t">Variables (mes)</div><div class="v" id="kVarSpent">—</div></div>
+              <div class="kpi"><div class="t">Presupuesto variables</div><div class="v" id="kVarBudget">—</div></div>
+              <div class="kpi"><div class="t">Saldo</div><div class="v big" id="kBalance">—</div></div>
+            </div>
+
+            <div class="hr"></div>
+
+            <h2 style="margin:0 0 8px">
+              <span>Semana</span>
+              <span id="weekPill" class="pill ok">OK</span>
+            </h2>
+
+            <div class="row">
+              <div>
+                <label>Fecha</label>
+                <input id="wkDate" type="date">
+              </div>
+              <div>
+                <label>Monto</label>
+                <input id="wkAmt" type="number" min="0" step="1" placeholder="0">
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn" id="addWeekSpend">+ Gasto</button>
+              <button class="btn quick" id="quickSpend">+ Rápido</button>
+            </div>
+
+            <div class="barWrap"><div class="bar" id="weekBar"></div></div>
+
+            <div class="kpis">
+              <div class="kpi"><div class="t">Tope semanal</div><div class="v" id="wkLimit">—</div></div>
+              <div class="kpi"><div class="t">Gastado</div><div class="v" id="wkSpent">—</div></div>
+              <div class="kpi"><div class="t">Te queda</div><div class="v" id="wkLeft">—</div></div>
+              <div class="kpi"><div class="t">Proy. mes</div><div class="v" id="moProjection">—</div></div>
+            </div>
+
+            <div class="mini" id="wkRange">—</div>
+
+            <div class="actions">
+              <button class="btn secondary" id="clearWeekView">Vaciar semana</button>
+              <button class="btn secondary" id="clearMonthVars">Vaciar variables mes</button>
+            </div>
+
+          </div>
+
+          <div class="card">
+            <h2><span>Bolsas</span><span class="pill ok" id="pillPcts">%</span></h2>
+
+            <div class="kpis">
+              <div class="kpi"><div class="t">Seguridad</div><div class="v" id="kSec">—</div></div>
+              <div class="kpi"><div class="t">Ahorro</div><div class="v" id="kSav">—</div></div>
+              <div class="kpi"><div class="t">Inversión</div><div class="v" id="kInv">—</div></div>
+              <div class="kpi"><div class="t">Ingreso</div><div class="v" id="kIncome">—</div></div>
+            </div>
+
+            <div class="hr"></div>
+            <p class="muted" id="planText">Cargá ingreso/fijos y usá gastos semanales. Listo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN: GASTOS -->
+      <section class="screen" data-screen="gastos">
+        <div class="grid">
+          <div class="card">
+            <h2><span>Fijos</span><span class="pill ok" id="fxCount">0</span></h2>
+            <div class="row">
+              <div>
+                <label>Nombre</label>
+                <input id="fxName" type="text" placeholder="alquiler, internet…">
+              </div>
+              <div>
+                <label>Monto</label>
+                <input id="fxAmt" type="number" min="0" step="1" placeholder="0">
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn" id="addFixed">+ Agregar</button>
+              <button class="btn secondary" id="clearFixed">Vaciar</button>
+            </div>
+            <div class="list" id="fixedList"></div>
+          </div>
+
+          <div class="card">
+            <h2><span>Variables (mes)</span><span class="pill ok" id="vrCount">0</span></h2>
+            <p class="muted">Acá ves todo lo cargado en el mes (incluye “rápidos”).</p>
+            <div class="list" id="varList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN: PLAN -->
+      <section class="screen" data-screen="plan">
+        <div class="grid">
+          <div class="card">
+            <h2><span>%</span><span class="pill ok" id="pctSum">—</span></h2>
+            <div class="row3">
+              <div><label>Seguridad</label><input id="pSec" type="number" min="0" step="0.5" value="15"></div>
+              <div><label>Ahorro</label><input id="pSav" type="number" min="0" step="0.5" value="10"></div>
+              <div><label>Inversión</label><input id="pInv" type="number" min="0" step="0.5" value="5"></div>
+            </div>
+            <div class="hr"></div>
+            <div class="kpis">
+              <div class="kpi"><div class="t">Presupuesto variables (mes)</div><div class="v" id="planVarBudget">—</div></div>
+              <div class="kpi"><div class="t">Tope semanal</div><div class="v" id="planWeekLimit">—</div></div>
+            </div>
+            <p class="muted">Regla: (Ingreso − Fijos − Bolsas) / 4.33 = tope semanal.</p>
+          </div>
+
+          <div class="card">
+            <h2><span>Acción</span><span class="pill ok">Sugerencia</span></h2>
+            <p class="muted" id="actionHint">Si el saldo está en rojo: bajá % o fijos. Si estás justo: bajá variables.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN: IA -->
+      <section class="screen" data-screen="ia">
+        <div class="grid">
+          <div class="card">
+            <h2><span>🧠 IA</span><span class="pill ok">Prompt</span></h2>
+            <div class="actions">
+              <button class="btn secondary" id="aiMakePrompt">Generar</button>
+              <button class="btn" id="aiSaveCheckin">Guardar</button>
+            </div>
+
+            <div class="row" style="margin-top:10px">
+              <div>
+                <label>Nota</label>
+                <input id="aiMyNote" type="text" placeholder="Cómo vengo…">
+              </div>
+              <div>
+                <label>Próximo paso</label>
+                <input id="aiNextStep" type="text" placeholder="Qué hago ahora…">
+              </div>
+            </div>
+
+            <div style="margin-top:10px">
+              <label>Texto para pegar</label>
+              <textarea id="aiPromptBox" placeholder="Se genera acá…"></textarea>
+            </div>
+            <p class="mini">Se copia al portapapeles si el navegador lo permite.</p>
+          </div>
+
+          <div class="card">
+            <h2><span>Camino</span><span class="pill ok">Check-ins</span></h2>
+            <div class="list" id="aiLogList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN: AJUSTES -->
+      <section class="screen" data-screen="settings">
+        <div class="grid">
+          <div class="card">
+            <h2><span>Backup</span><span class="pill ok">JSON</span></h2>
+            <div class="actions">
+              <button class="btn secondary" id="exportJson">Exportar</button>
+              <button class="btn secondary" id="importJson">Importar</button>
+            </div>
+            <div style="margin-top:10px">
+              <label>JSON</label>
+              <textarea id="jsonBox" placeholder="Exporta o pegá para importar…"></textarea>
+            </div>
+            <p class="mini">Incluye todos los meses + check-ins.</p>
+          </div>
+
+          <div class="card">
+            <h2><span>Fondo</span><span class="pill ok">Personal</span></h2>
+            <div class="row">
+              <div>
+                <label>Subir imagen</label>
+                <input type="file" id="bgUpload" accept="image/*">
+              </div>
+              <div style="display:flex;align-items:end">
+                <button class="btn secondary" id="bgReset" style="width:100%">Reset</button>
+              </div>
+            </div>
+            <div class="hr"></div>
+            <div class="actions">
+              <button class="btn danger" id="wipeAll">Borrar TODO</button>
+            </div>
+            <p class="mini">Borrar todo elimina los meses guardados en este dispositivo.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-wrap">
+      <button class="navbtn active" data-go="home">🏠<small>Resumen</small></button>
+      <button class="navbtn" data-go="gastos">🧾<small>Gastos</small></button>
+      <button class="navbtn" data-go="plan">📊<small>Plan</small></button>
+      <button class="navbtn" data-go="ia">🧠<small>IA</small></button>
+      <button class="navbtn" data-go="settings">⚙️<small>Ajustes</small></button>
+    </div>
+  </div>
+
+<script>
+/* =========================
+   Estado (mes a mes) + storage
+========================= */
+const STORAGE_KEY = "finanzas_android_v1";
+const BG_KEY = "finanzas_bg_v1";
+
+const el = (id)=>document.getElementById(id);
+
+const monthEl = el("month");
+const incomeEl = el("income");
+
+const fxNameEl = el("fxName");
+const fxAmtEl = el("fxAmt");
+const fixedListEl = el("fixedList");
+const varListEl = el("varList");
+
+const pSecEl = el("pSec");
+const pSavEl = el("pSav");
+const pInvEl = el("pInv");
+
+const wkDateEl = el("wkDate");
+const wkAmtEl = el("wkAmt");
+
+const statusPillEl = el("statusPill");
+const weekPillEl = el("weekPill");
+const weekBarEl = el("weekBar");
+
+const kIncomeEl = el("kIncome");
+const kFixedEl = el("kFixed");
+const kVarBudgetEl = el("kVarBudget");
+const kVarSpentEl = el("kVarSpent");
+const kBalanceEl = el("kBalance");
+const kSecEl = el("kSec");
+const kSavEl = el("kSav");
+const kInvEl = el("kInv");
+
+const wkLimitEl = el("wkLimit");
+const wkSpentEl = el("wkSpent");
+const wkLeftEl = el("wkLeft");
+const wkRangeEl = el("wkRange");
+const moProjectionEl = el("moProjection");
+
+const planTextEl = el("planText");
+const actionHintEl = el("actionHint");
+
+const planVarBudgetEl = el("planVarBudget");
+const planWeekLimitEl = el("planWeekLimit");
+const pctSumEl = el("pctSum");
+const pillPctsEl = el("pillPcts");
+
+const fxCountEl = el("fxCount");
+const vrCountEl = el("vrCount");
+
+const jsonBoxEl = el("jsonBox");
+
+const aiMakePromptBtn = el("aiMakePrompt");
+const aiSaveCheckinBtn = el("aiSaveCheckin");
+const aiPromptBox = el("aiPromptBox");
+const aiMyNoteEl = el("aiMyNote");
+const aiNextStepEl = el("aiNextStep");
+const aiLogListEl = el("aiLogList");
+
+let state = {
+  currentMonth: "",
+  months: {}
+};
+
+function clampNum(x){ return (isFinite(x) && x>=0) ? x : 0; }
+function money(v){
+  if(!isFinite(v)) return "—";
+  return "$ " + v.toLocaleString("es-AR",{maximumFractionDigits:0});
+}
+function escapeHtml(s){
+  return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+
+function todayISO(){
+  const d = new Date();
+  const tz = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return tz.toISOString().slice(0,10);
+}
+function currentMonthISO(){
+  const d = new Date();
+  const tz = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return tz.toISOString().slice(0,7);
+}
+
+function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+function load(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){ try{ state = JSON.parse(raw); }catch(e){} }
+
+  const m = state.currentMonth || currentMonthISO();
+  state.currentMonth = m;
+  ensureMonth(m);
+
+  monthEl.value = m;
+  wkDateEl.value = wkDateEl.value || todayISO();
+  loadMonthToUI(m);
+
+  // Fondo guardado
+  const savedBg = localStorage.getItem(BG_KEY);
+  if(savedBg){
+    document.body.style.backgroundImage =
+      `linear-gradient(rgba(7,10,20,.75), rgba(7,10,20,.88)), url('${savedBg}')`;
+  }
+
+  recalc();
+  renderAILogs();
+}
+
+function ensureMonth(m){
+  if(!state.months[m]){
+    state.months[m] = {
+      income: 0,
+      perc: { sec: 15, sav: 10, inv: 5 },
+      fixed: [],
+      vars: [],
+      aiLogs: []
+    };
+  }
+}
+function currentData(){
+  const m = monthEl.value || state.currentMonth || currentMonthISO();
+  state.currentMonth = m;
+  ensureMonth(m);
+  return state.months[m];
+}
+function loadMonthToUI(m){
+  ensureMonth(m);
+  const d = state.months[m];
+  incomeEl.value = d.income || 0;
+  pSecEl.value = d.perc?.sec ?? 15;
+  pSavEl.value = d.perc?.sav ?? 10;
+  pInvEl.value = d.perc?.inv ?? 5;
+  renderFixed();
+  renderVarsList();
+}
+
+function sumFixed(){
+  const d = currentData();
+  return d.fixed.reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+}
+function sumVarsMonth(){
+  const d = currentData();
+  return d.vars.reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+}
+
+/* ===== Semana Lun–Dom ===== */
+function parseISO(s){
+  const [y,m,d] = (s||"").split("-").map(Number);
+  if(!y||!m||!d) return null;
+  return new Date(y, m-1, d);
+}
+function startOfWeekMonday(d){
+  const day = d.getDay();
+  const diff = (day === 0 ? -6 : 1 - day);
+  const res = new Date(d);
+  res.setDate(d.getDate() + diff);
+  res.setHours(0,0,0,0);
+  return res;
+}
+function endOfWeekSunday(d){
+  const s = startOfWeekMonday(d);
+  const e = new Date(s);
+  e.setDate(s.getDate()+6);
+  e.setHours(23,59,59,999);
+  return e;
+}
+function toISODate(d){
+  const tz = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return tz.toISOString().slice(0,10);
+}
+function inWeek(dateISO, weekStart){
+  const d = parseISO(dateISO);
+  if(!d) return false;
+  const s = new Date(weekStart);
+  const e = endOfWeekSunday(weekStart);
+  return d >= s && d <= e;
+}
+
+/* ===== Cálculos ===== */
+function monthlyPlanNumbers(){
+  const d = currentData();
+  d.income = clampNum(parseFloat(incomeEl.value));
+  d.perc.sec = clampNum(parseFloat(pSecEl.value));
+  d.perc.sav = clampNum(parseFloat(pSavEl.value));
+  d.perc.inv = clampNum(parseFloat(pInvEl.value));
+
+  const inc = d.income;
+  const fixed = sumFixed();
+  const sec = inc * (d.perc.sec/100);
+  const sav = inc * (d.perc.sav/100);
+  const inv = inc * (d.perc.inv/100);
+  const varBudgetMonth = inc - fixed - sec - sav - inv;
+  return { inc, fixed, sec, sav, inv, varBudgetMonth };
+}
+
+function recalc(){
+  const d = currentData();
+  const { inc, fixed, sec, sav, inv, varBudgetMonth } = monthlyPlanNumbers();
+  const varsSpentMonth = sumVarsMonth();
+  const balanceMonth = inc - fixed - sec - sav - inv - varsSpentMonth;
+
+  // KPIs (home)
+  kIncomeEl.textContent = money(inc);
+  kFixedEl.textContent = money(fixed);
+  kVarBudgetEl.textContent = money(varBudgetMonth);
+  kVarSpentEl.textContent = money(varsSpentMonth);
+  kBalanceEl.textContent = money(balanceMonth);
+
+  kSecEl.textContent = money(sec);
+  kSavEl.textContent = money(sav);
+  kInvEl.textContent = money(inv);
+
+  planVarBudgetEl.textContent = money(varBudgetMonth);
+  const weeklyLimit = varBudgetMonth / 4.33;
+  planWeekLimitEl.textContent = money(weeklyLimit);
+
+  const pctSum = (d.perc.sec + d.perc.sav + d.perc.inv);
+  pctSumEl.textContent = pctSum.toFixed(1) + "%";
+  pillPctsEl.textContent = `${d.perc.sec}% • ${d.perc.sav}% • ${d.perc.inv}%`;
+
+  // Status
+  statusPillEl.className = "pill ok";
+  statusPillEl.textContent = "OK";
+  if(inc <= 0){
+    statusPillEl.className = "pill warn";
+    statusPillEl.textContent = "Ingreso";
+  } else if(varBudgetMonth < 0){
+    statusPillEl.className = "pill bad";
+    statusPillEl.textContent = "No alcanza";
+  } else if(balanceMonth < 0){
+    statusPillEl.className = "pill bad";
+    statusPillEl.textContent = "Rojo";
+  } else if(balanceMonth < inc*0.03){
+    statusPillEl.className = "pill warn";
+    statusPillEl.textContent = "Justo";
+  }
+
+  // Semana
+  const refDate = parseISO(wkDateEl.value) || new Date();
+  const weekStart = startOfWeekMonday(refDate);
+  const weekEnd = endOfWeekSunday(refDate);
+  const weekSpent = d.vars.filter(x => inWeek(x.date, weekStart))
+    .reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+
+  wkLimitEl.textContent = money(weeklyLimit);
+  wkSpentEl.textContent = money(weekSpent);
+  wkLeftEl.textContent = money(weeklyLimit - weekSpent);
+  wkRangeEl.textContent = `${toISODate(weekStart)} → ${toISODate(weekEnd)}`;
+  moProjectionEl.textContent = money(weekSpent * 4.33);
+
+  // Week bar + pill
+  weekBarEl.classList.remove("warn","bad");
+  weekPillEl.className = "pill ok";
+  weekPillEl.textContent = "OK";
+  if(weeklyLimit <= 0){
+    weekBarEl.style.width = "0%";
+    weekPillEl.className = "pill warn";
+    weekPillEl.textContent = "Sin tope";
+  } else {
+    const ratio = weekSpent / weeklyLimit;
+    const pct = Math.min(200, ratio*100);
+    weekBarEl.style.width = pct + "%";
+    if(ratio >= 1){
+      weekBarEl.classList.add("bad");
+      weekPillEl.className = "pill bad";
+      weekPillEl.textContent = "Pasado";
+    } else if(ratio >= 0.8){
+      weekBarEl.classList.add("warn");
+      weekPillEl.className = "pill warn";
+      weekPillEl.textContent = "Cerca";
+    }
+  }
+
+  // Textos cortos
+  if(inc <= 0){
+    planTextEl.textContent = "Cargá ingreso y listo.";
+    actionHintEl.textContent = "Primero ingreso + fijos.";
+  } else if(varBudgetMonth < 0){
+    planTextEl.textContent = "Bajá % o fijos.";
+    actionHintEl.textContent = "Estás negativo antes de variables.";
+  } else if(balanceMonth < 0){
+    planTextEl.textContent = "Recortá variables.";
+    actionHintEl.textContent = "Mes en rojo: bajá ritmo semanal.";
+  } else {
+    planTextEl.textContent = "Seguí así.";
+    actionHintEl.textContent = "Sostené tope semanal.";
+  }
+
+  // Counters
+  fxCountEl.textContent = String(d.fixed.length);
+  vrCountEl.textContent = String(d.vars.length);
+
+  save();
+}
+
+/* ===== Render Lists ===== */
+function renderFixed(){
+  const d = currentData();
+  fixedListEl.innerHTML = "";
+  d.fixed.forEach((it, idx)=>{
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div class="name">${escapeHtml(it.name || "—")}</div>
+      <div class="amt">${money(it.amount)}</div>
+      <button class="btn danger" style="padding:.35rem .65rem" data-del-fx="${idx}">X</button>
+    `;
+    fixedListEl.appendChild(div);
+  });
+  fixedListEl.querySelectorAll("[data-del-fx]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const d = currentData();
+      const i = parseInt(btn.getAttribute("data-del-fx"),10);
+      d.fixed.splice(i,1);
+      save(); renderFixed(); recalc();
+    });
+  });
+}
+
+function renderVarsList(){
+  const d = currentData();
+  varListEl.innerHTML = "";
+  const ordered = d.vars.slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+  ordered.forEach((it, idx)=>{
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div class="name">${escapeHtml(it.date)}${it.note ? " · " + escapeHtml(it.note) : ""}</div>
+      <div class="amt">${money(it.amount)}</div>
+      <button class="btn danger" style="padding:.35rem .65rem" data-del-vr="${idx}">X</button>
+    `;
+    varListEl.appendChild(div);
+  });
+  varListEl.querySelectorAll("[data-del-vr]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const d = currentData();
+      const ordered = d.vars.slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+      const i = parseInt(btn.getAttribute("data-del-vr"),10);
+      const target = ordered[i];
+      const j = d.vars.findIndex(x =>
+        x.date === target.date &&
+        x.amount === target.amount &&
+        (x.note||"") === (target.note||"")
+      );
+      if(j>=0) d.vars.splice(j,1);
+      save(); renderVarsList(); recalc();
+    });
+  });
+}
+
+/* ===== Actions ===== */
+el("addFixed").addEventListener("click", ()=>{
+  const d = currentData();
+  const name = (fxNameEl.value||"").trim();
+  const amt = clampNum(parseFloat(fxAmtEl.value));
+  if(!name || amt<=0){ alert("Nombre + monto"); return; }
+  d.fixed.push({name, amount: amt});
+  fxNameEl.value=""; fxAmtEl.value="";
+  save(); renderFixed(); recalc();
+});
+
+el("clearFixed").addEventListener("click", ()=>{
+  const d = currentData();
+  d.fixed = [];
+  save(); renderFixed(); recalc();
+});
+
+el("addWeekSpend").addEventListener("click", ()=>{
+  const d = currentData();
+  const date = wkDateEl.value || todayISO();
+  const amt = clampNum(parseFloat(wkAmtEl.value));
+  if(amt<=0){ alert("Monto inválido"); return; }
+  d.vars.push({date, amount: amt, note:""});
+  wkAmtEl.value="";
+  save(); renderVarsList(); recalc();
+});
+
+el("quickSpend").addEventListener("click", ()=>{
+  const d = currentData();
+  const v = prompt("Monto (hoy):");
+  if(v === null) return;
+  const amt = clampNum(parseFloat(v));
+  if(amt<=0){ alert("Monto inválido"); return; }
+  d.vars.push({date: todayISO(), amount: amt, note:""});
+  save(); renderVarsList(); recalc();
+});
+
+el("clearWeekView").addEventListener("click", ()=>{
+  const d = currentData();
+  const ref = parseISO(wkDateEl.value) || new Date();
+  const weekStart = startOfWeekMonday(ref);
+  d.vars = d.vars.filter(x => !inWeek(x.date, weekStart));
+  save(); renderVarsList(); recalc();
+});
+
+el("clearMonthVars").addEventListener("click", ()=>{
+  const d = currentData();
+  d.vars = [];
+  save(); renderVarsList(); recalc();
+});
+
+/* ===== Month switching ===== */
+monthEl.addEventListener("input", ()=>{
+  const m = monthEl.value || currentMonthISO();
+  state.currentMonth = m;
+  ensureMonth(m);
+  loadMonthToUI(m);
+  renderAILogs();
+  recalc();
+});
+
+/* Recalc */
+[incomeEl, pSecEl, pSavEl, pInvEl, wkDateEl].forEach(x => x.addEventListener("input", ()=>{
+  renderFixed(); // no-op safe
+  recalc();
+}));
+
+/* ===== JSON backup ===== */
+el("exportJson").addEventListener("click", ()=>{
+  const text = JSON.stringify(state, null, 2);
+  jsonBoxEl.value = text;
+  try{ navigator.clipboard.writeText(text); alert("Copiado"); }catch(e){ alert("Exportado"); }
+});
+el("importJson").addEventListener("click", ()=>{
+  const t = (jsonBoxEl.value||"").trim();
+  if(!t){ alert("Pegá JSON"); return; }
+  try{
+    const obj = JSON.parse(t);
+    if(!obj || typeof obj !== "object") throw new Error("bad");
+    state = obj;
+    if(!state.months) state.months = {};
+    if(!state.currentMonth) state.currentMonth = currentMonthISO();
+    ensureMonth(state.currentMonth);
+    monthEl.value = state.currentMonth;
+    loadMonthToUI(state.currentMonth);
+    renderAILogs();
+    save();
+    recalc();
+    alert("Importado");
+  }catch(e){
+    alert("JSON inválido");
+  }
+});
+
+/* ===== Fondo ===== */
+const bgUpload = el("bgUpload");
+const bgReset = el("bgReset");
+if(bgUpload){
+  bgUpload.addEventListener("change", (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev)=>{
+      const img = ev.target.result;
+      document.body.style.backgroundImage =
+        `linear-gradient(rgba(7,10,20,.75), rgba(7,10,20,.88)), url('${img}')`;
+      localStorage.setItem(BG_KEY, img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+if(bgReset){
+  bgReset.addEventListener("click", ()=>{
+    localStorage.removeItem(BG_KEY);
+    document.body.style.backgroundImage = "";
+    alert("Fondo restablecido");
+  });
+}
+
+/* ===== Wipe all ===== */
+el("wipeAll").addEventListener("click", ()=>{
+  if(!confirm("¿Borrar TODO en este dispositivo?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(BG_KEY);
+  location.reload();
+});
+
+/* =========================
+   IA + Camino financiero
+========================= */
+function nowLocalStamp(){
+  const d = new Date();
+  const pad = (n)=> String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function buildSnapshot(){
+  const d = currentData();
+  const { inc, fixed, sec, sav, inv, varBudgetMonth } = monthlyPlanNumbers();
+  const varsSpentMonth = sumVarsMonth();
+  const balanceMonth = inc - fixed - sec - sav - inv - varsSpentMonth;
+
+  const refDate = parseISO(wkDateEl.value) || new Date();
+  const weekStart = startOfWeekMonday(refDate);
+  const weekEnd = endOfWeekSunday(refDate);
+  const weekSpent = d.vars.filter(x => inWeek(x.date, weekStart))
+    .reduce((a,x)=>a + clampNum(parseFloat(x.amount)), 0);
+
+  const weeklyLimit = varBudgetMonth / 4.33;
+
+  return {
+    month: monthEl.value,
+    stamp: nowLocalStamp(),
+    income: inc,
+    fixed,
+    security: sec,
+    saving: sav,
+    investing: inv,
+    variableBudgetMonth: varBudgetMonth,
+    variableSpentMonth: varsSpentMonth,
+    balanceMonth,
+    weeklyLimit,
+    weekSpent,
+    weekRange: `${toISODate(weekStart)} → ${toISODate(weekEnd)}`,
+    perc: {
+      sec: clampNum(parseFloat(pSecEl.value)),
+      sav: clampNum(parseFloat(pSavEl.value)),
+      inv: clampNum(parseFloat(pInvEl.value))
+    }
+  };
+}
+
+function renderAILogs(){
+  const d = currentData();
+  if(!Array.isArray(d.aiLogs)) d.aiLogs = [];
+
+  aiLogListEl.innerHTML = "";
+  if(d.aiLogs.length === 0){
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `<div class="name">Sin check-ins este mes.</div><div class="amt"></div><div></div>`;
+    aiLogListEl.appendChild(div);
+    return;
+  }
+
+  const show = d.aiLogs.slice(0, 12);
+  show.forEach((log, idx)=>{
+    const s = log.snapshot || {};
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div class="name">
+        <b>${escapeHtml(log.stamp||"")}</b><br>
+        Saldo: ${money(s.balanceMonth)} · Var mes: ${money(s.variableSpentMonth)}<br>
+        Semana: ${escapeHtml(s.weekRange||"")} · ${money(s.weekSpent)} / ${money(s.weeklyLimit)}<br>
+        <span class="mini">Nota:</span> ${escapeHtml(log.myNote||"—")}<br>
+        <span class="mini">Paso:</span> ${escapeHtml(log.nextStep||"—")}
+      </div>
+      <div class="amt">${money(s.balanceMonth)}</div>
+      <button class="btn danger" style="padding:.35rem .65rem" data-del-ai="${idx}">X</button>
+    `;
+    aiLogListEl.appendChild(div);
+  });
+
+  aiLogListEl.querySelectorAll("[data-del-ai]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const d = currentData();
+      const i = parseInt(btn.getAttribute("data-del-ai"),10);
+      d.aiLogs.splice(i,1);
+      save(); renderAILogs();
+    });
+  });
+}
+
+function generateAIPrompt(){
+  const snap = buildSnapshot();
+  const prompt =
+`Actuá como asesor de finanzas personales. Quiero un análisis SIMPLE y accionable.
+
+MES: ${snap.month} (snapshot ${snap.stamp})
+
+DATOS:
+- Ingreso: ${snap.income}
+- Fijos: ${snap.fixed}
+- Seguridad (${snap.perc.sec}%): ${snap.security}
+- Ahorro (${snap.perc.sav}%): ${snap.saving}
+- Inversión (${snap.perc.inv}%): ${snap.investing}
+- Presupuesto variables (mes): ${snap.variableBudgetMonth}
+- Variables gastadas (mes): ${snap.variableSpentMonth}
+- Saldo del mes: ${snap.balanceMonth}
+
+CONTROL SEMANAL:
+- Semana: ${snap.weekRange}
+- Tope semanal sugerido: ${snap.weeklyLimit}
+- Gastado esta semana: ${snap.weekSpent}
+
+MIS NOTAS:
+- Nota: ${(aiMyNoteEl.value||"").trim() || "(sin nota)"}
+- Próximo paso pensado: ${(aiNextStepEl.value||"").trim() || "(sin paso)"}
+
+DEVOLVEME:
+1) Diagnóstico (5 líneas)
+2) Semáforo (Bolsas / Variables)
+3) 3 ajustes simples para esta semana (con números)
+4) 1 regla de hábito para 7 días
+5) 3 indicadores para el próximo check-in.`;
+
+  aiPromptBox.value = prompt;
+  try{ navigator.clipboard.writeText(prompt); }catch(e){}
+}
+
+function saveCheckin(){
+  const d = currentData();
+  if(!Array.isArray(d.aiLogs)) d.aiLogs = [];
+
+  const snap = buildSnapshot();
+  d.aiLogs.unshift({
+    stamp: snap.stamp,
+    snapshot: snap,
+    myNote: (aiMyNoteEl.value||"").trim(),
+    nextStep: (aiNextStepEl.value||"").trim()
+  });
+
+  aiMyNoteEl.value = "";
+  aiNextStepEl.value = "";
+  save();
+  renderAILogs();
+}
+
+aiMakePromptBtn.addEventListener("click", generateAIPrompt);
+aiSaveCheckinBtn.addEventListener("click", saveCheckin);
+
+/* =========================
+   Navegación por pantallas
+========================= */
+function go(screen){
+  document.querySelectorAll(".screen").forEach(s=>{
+    s.classList.toggle("active", s.getAttribute("data-screen") === screen);
+  });
+  document.querySelectorAll(".navbtn").forEach(b=>{
+    b.classList.toggle("active", b.getAttribute("data-go") === screen);
+  });
+  // hint arriba
+  const hints = {home:"Resumen", gastos:"Gastos", plan:"Plan", ia:"IA", settings:"Ajustes"};
+  el("topHint").textContent = hints[screen] || "Diario · simple";
+}
+
+document.querySelectorAll(".navbtn").forEach(btn=>{
+  btn.addEventListener("click", ()=> go(btn.getAttribute("data-go")));
+});
+
+/* Init */
+(function init(){
+  monthEl.value = currentMonthISO();
+  wkDateEl.value = todayISO();
+  load();
+  renderFixed();
+  renderVarsList();
+  recalc();
+  renderAILogs();
+})();
+
+// PWA: Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+</script>
+</body>
+</html>
